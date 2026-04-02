@@ -47,14 +47,31 @@ npm run build
 ## Option B: Direct deploy (if your project already has full Laravel files)
 
 ```bash
-COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
-cp .env.example .env
-php artisan key:generate
-php artisan migrate --force
-php artisan db:seed --force
-php artisan optimize
-php artisan queue:work --queue=default --sleep=3 --tries=3
+COMPOSER_ALLOW_SUPERUSER=1 bash deploy.sh
 ```
+
+## Common issues
+
+### 1) `Unable to set application key. No APP_KEY variable was found`
+Ensure `.env` contains `APP_KEY=` line. `deploy.sh` now auto-adds this line if missing.
+
+### 2) SQLite migration error `table users already exists`
+Your app is using SQLite and the DB file is stale. Either switch `.env` to MariaDB, or reset SQLite:
+
+```bash
+rm -f database/database.sqlite
+php artisan migrate --force
+```
+
+### 3) Vite/Tailwind error `Cannot find module 'tailwindcss'`
+Run:
+
+```bash
+npm install
+npm run build
+```
+
+`package.json` now includes `tailwindcss`, `postcss`, and `autoprefixer`.
 
 ## Security note
 
