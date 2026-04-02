@@ -25,7 +25,7 @@ Laravel 11 monolith base for porting Tinix-Bazi with:
 Run one command after download:
 
 ```bash
-bash hydrate_laravel.sh
+COMPOSER_ALLOW_SUPERUSER=1 bash hydrate_laravel.sh
 ```
 
 This will:
@@ -47,7 +47,7 @@ npm run build
 ## Option B: Direct deploy (if your project already has full Laravel files)
 
 ```bash
-composer install --no-dev --optimize-autoloader
+COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 cp .env.example .env
 php artisan key:generate
 php artisan migrate --force
