@@ -20,7 +20,31 @@ Laravel 11 monolith base for porting Tinix-Bazi with:
 - Seeder with default admin and sample article.
 - Basic web landing page (`/`) and API health test.
 
-## Deploy (production)
+## Option A: Hydrate full official Laravel files first (recommended)
+
+Run one command after download:
+
+```bash
+bash hydrate_laravel.sh
+```
+
+This will:
+1. Download a clean Laravel 11 skeleton.
+2. Copy any missing core Laravel files into this project.
+3. Install Composer/NPM dependencies.
+
+Then run:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --force
+php artisan db:seed --force
+php artisan optimize
+npm run build
+```
+
+## Option B: Direct deploy (if your project already has full Laravel files)
 
 ```bash
 composer install --no-dev --optimize-autoloader
@@ -30,13 +54,6 @@ php artisan migrate --force
 php artisan db:seed --force
 php artisan optimize
 php artisan queue:work --queue=default --sleep=3 --tries=3
-```
-
-If using frontend asset build:
-
-```bash
-npm install
-npm run build
 ```
 
 ## Security note
